@@ -11,6 +11,8 @@ colorama para dar color a la salida de la terminal.
 
 ```sh
 python3 setup.py
+cd src/
+python3 main.py
 ```
 Esto instalara el modulo de colorama si es que no lo tiene instalado.
 
