@@ -1,13 +1,13 @@
 # Crud Terminal
 
 Un ejemplo simple de crud en python3, donde se maneja base de datos relacional
-sqlite3, es una tonteria aclaro que el codifo en si es algo **basura** jsjs, pero
-es de lo poco que he podido aprender. Si mucho blablabla como puedo susar el proyecto?
+sqlite3, es una tonteria. Aclaro que el codigo en si es algo **basura** jsjs, pero
+es de lo poco que he podido aprender. Si mucho blablabla como puedo usar el proyecto?
 
 ## Instalacion
-aclaro que hay un modulo de python que es sqlite3 que es algo confuso al momento de instalatlo
-puedes mirar la documentacion en pypi [pypi](https://pypi.org/search/?q=sqlite3) . En fin tambien se esta usando el modulo de
-coloramo para dar color a la salida de la terminal.
+aclaro que hay un modulo de python que es sqlite3 que es algo confuso al momento de instalarlo
+puedes mirar la documentacion en pypi [pypi](https://pypi.org/search/?q=sqlite3). En fin tambien se esta usando el modulo de
+colorama para dar color a la salida de la terminal.
 
 ```sh
 python3 setup.py
