@@ -10,6 +10,7 @@ import os
 import time
 import sqlite3
 
+
 # establecemos la coneccion con la base de datos sqllite
 db = con.DB()
 
@@ -58,7 +59,9 @@ def continuar():
             exit(1)
 
     except KeyboardInterrupt:
+        banner()
         print(f"\n{Color.r}[!] saliendo forzado{Color.off}\n")
+        exit(1)
     
     except ValueError:
         print(f"{Color.r}[!] Error ingrese una opcion{Color.off}")
@@ -82,7 +85,8 @@ def create():
             continuar()
 
         else:
-            print(f"{Color.r}[!] Ingrese Datos Validos{Color.off}")
+            banner()
+            print(f"\n{Color.r}[!] Ingrese Datos Validos{Color.off}\n")
             exit(1)
 
     except KeyboardInterrupt:
@@ -96,9 +100,9 @@ def read():
     sql: str = db.ejecutar_consulta("SELECT * FROM campos")
     for data in sql:
         print(f"""
-        ID: {data[0]}
-        Nombre: {data[1]}
-        Email: {data[2]}
+        {Color.y}ID: {Color.v}{data[0]}{Color.off}
+        {Color.y}Nombre: {Color.v}{data[1]}{Color.off}
+        {Color.y}Email: {Color.v}{data[2]}{Color.off}
         """)
 
 
@@ -158,9 +162,9 @@ def buscar():
             res = db.ejecutar_consulta(sql, parametros)
             for data in res:
                 print(f"""
-                [+] ID: {data[0]}
-                [+] Nombre {data[1]}
-                [+] Email {data[2]}
+                {Color.y}[{Color.b}+{Color.y}] ID: {Color.v}{data[0]}{Color.off}
+                {Color.y}[{Color.b}+{Color.y}] Nombre {Color.v}{data[1]}{Color.off}
+                {Color.y}[{Color.b}+{Color.y}] Email {Color.v}{data[2]}{Color.off}
                 """)
 
     except KeyboardInterrupt:
@@ -177,13 +181,13 @@ def buscar():
 
 def menu():
     banner()
-    print(f"""{Color.y}
-1. Agregar Registro
-2. Listar Registro
-3. Actualizar Registro
-4. Borrar Registro
-5. Buscar
-6. Salir del programa
+    print(f"""
+{Color.m}1. {Color.v}Agregar Registro{Color.off}
+{Color.m}2. {Color.v}Listar Registro{Color.off}
+{Color.m}3. {Color.v}Actualizar Registro{Color.off}
+{Color.m}4. {Color.v}Borrar Registro{Color.off}
+{Color.m}5. {Color.v}Buscar{Color.off}
+{Color.m}6. {Color.v}Salir del programa
         {Color.off}""")
     try:
         menu: int = int(input(f"{Color.b}[{Color.r}*{Color.b}] Seleccione una opcion: {Color.off}"))
@@ -211,7 +215,6 @@ def opcion():
                 banner()
                 create()
                 time.sleep(1.5)
-                clear_pant()
                 banner()
                 continuar()
                 break
@@ -219,26 +222,38 @@ def opcion():
             elif n == 2:
                 banner()
                 read()
+                time.sleep(2)
+                banner()
+                continuar()
                 break
 
             elif n == 3:
                 banner()
                 update()
+                time.sleep(1.5)
+                banner()
+                continuar()
                 break
 
             elif n == 4:
                 banner()
                 delete()
+                time.sleep(1.5)
+                banner()
+                continuar()
                 break
 
             elif n == 5:
                 banner()
                 buscar()
+                time.sleep(1.5)
+                banner() 
+                continuar()
                 break
 
             elif n == 6:
                 banner()
-                print(f"\n{Color.v}[!] {Color.r}B{Color.y}y{Color.b}e{Color.m}.{Color.y}.{Color.b}.\n{Color.off}")
+                print(f"\n{Color.r}[!] {Color.r}B{Color.y}y{Color.b}e{Color.m}.{Color.y}.{Color.b}.\n{Color.off}")
                 break
 
             else:
