@@ -8,6 +8,7 @@ import conexion_db as con
 import platform
 import os
 import time
+import sqlite3
 
 # establecemos la coneccion con la base de datos sqllite
 db = con.DB()
@@ -36,22 +37,53 @@ def banner():
     print(f"{Color.r}[*]  {Color.m}CRUD Python {Color.r}[*]{Color.off}")
     print(f"{Color.v}={Color.off}"*20)
 
+
+def continuar():
+    try:
+        continuar = str(input(f"\n{Color.r}[!] {Color.v}volver al menu? Si[s] o No[n]: {Color.off}")).lower()
+        if continuar == "s" or "si" and continuar != "":
+            banner()
+            menu()
+            opcion()
+
+        elif continuar == "n" or "no" and continuar != "":
+            banner()
+            print(f"{Color.y}[*] Gracias Por usar el programa {Color.r}:){Color.off}")
+            exit(0)
+
+        else:
+            clear_pant()
+            banner()
+            print(f"\n{Color.r}[!] Error... Ingrese un valor{Color.off}\n")
+            exit(1)
+
+    except KeyboardInterrupt:
+        print(f"\n{Color.r}[!] saliendo forzado{Color.off}\n")
+    
+    except ValueError:
+        print(f"{Color.r}[!] Error ingrese una opcion{Color.off}")
+        continuar()
+
 ################################################################################
 # Funciones para padir a la base de datos
 def create():
     try:
-        nombre: str = str(input("[+] Ingrese el Nombre: "))
-        email: str = str(input("[+] Ingrese el email: "))
+        nombre: str = str(input(f"{Color.y}[+] {Color.v}Ingrese el Nombre: {Color.off}"))
+        email: str = str(input(f"{Color.y}[+] {Color.v}Ingrese el email: {Color.off}"))
         if len(nombre) > 0 and len(email) > 0:
             # insertar los datos
             # ejecuta la consulta y la guarda 
             sql: str = "INSERT INTO campos(nombre, email) VALUES(?, ?)"
             parametros: str = (nombre, email)
             db.ejecutar_consulta(sql, parametros)
-            print(f"{Color.v}[*] Guardados.. :){Color.off}")
+            clear_pant()
+            banner()
+            print(f"\n{Color.v}[*] Guardados.. {Color.m}:){Color.off}\n")
+            continuar()
+
         else:
-            print("[!] Ingrese Datos Validos")
-            exit()
+            print(f"{Color.r}[!] Ingrese Datos Validos{Color.off}")
+            exit(1)
 
     except KeyboardInterrupt:
         clear_pant()
@@ -72,14 +104,17 @@ def read():
 
 def update():
     try:
-        id: int = int(input("[+] Ingrese el ID a actualizar: "))
-        nombre: str = str(input("[+] Ingrese el nuevo Nombre: "))
-        email: str = str(input("[+] Ingrese el nuevo email: "))
+        id: int = int(input(f"{Color.y}[+] {Color.v}Ingrese el ID a actualizar: {Color.off}"))
+        nombre: str = str(input(f"{Color.y}[+] {Color.v}Ingrese el nuevo Nombre: {Color.off}"))
+        email: str = str(input(f"{Color.y}[+] {Color.v}Ingrese el nuevo email: {Color.off}"))
         if id != "":
             sql:str = "UPDATE campos SET nombre=?, email=? WHERE id=?"
             parametros = (nombre, email, id)
             db.ejecutar_consulta(sql, parametros)
-            print("[*] Actualizados :)")
+            clear_pant()
+            banner()
+            print(f"{Color.y}[*] {Color.v}Actualizados {Color.m}:){Color.off}")
+            continuar()
     
     except ValueError:
         clear_pant()
@@ -95,12 +130,13 @@ def update():
 
 def delete():
     try:
-        id: int = int(input("[+] Ingrese el ID a borrarr: "))
+        id: int = int(input(f"{Color.y}[+] {Color.v}Ingrese el ID a borrarr: {Color.off}"))
         if id != "":
             sql = "DELETE FROM campos WHERE id=?"
             parametros = (id,)
             db.ejecutar_consulta(sql, parametros)
-            print("[!] Eliminado...")
+            print(f"{Color.y}[!] {Color.v}Eliminado{Color.b}.{Color.r}.{Color.m}.{Color.off}")
+            continuar()
     
     except KeyboardInterrupt:
         banner()
@@ -111,36 +147,32 @@ def delete():
         banner()
         print(f"{Color.r}[!] Error Ingrese el numero del ID{Color.off}\n")
         continuar()
-
+    
 
 def buscar():
-    nombre: str = str(input("[+] Ingrese el Nombre a Buscar: "))
-    if len(nombre) > 0:
-        sql = "SELECT * FROM campos WHERE nombre LIKE ?"
-        parametros = (f"%{nombre}%")
-        res = db.ejecutar_consulta(sql, parametros)
-        for data in res:
-            print(f"""
-            [+] ID: {data[0]}
-            [+] Nombre {data[1]}
-            [+] Email {data[2]}
-            """)
-################################################################################
+    try:
+        nombre: str = str(input(f"{Color.y}[+] {Color.v}Ingrese el Nombre a Buscar: {Color.off}"))
+        if len(nombre) > 0:
+            sql = "SELECT * FROM campos WHERE nombre LIKE ?"
+            parametros = (f"%{nombre}%")
+            res = db.ejecutar_consulta(sql, parametros)
+            for data in res:
+                print(f"""
+                [+] ID: {data[0]}
+                [+] Nombre {data[1]}
+                [+] Email {data[2]}
+                """)
 
-
-def continuar():
-    continuar = str(input(f"\n{Color.r}[!] {Color.v}volver al menu? Si[s] o No[n]: {Color.off}")).lower()
-    if continuar == "s" or "si":
-        banner()
-        menu()
-        opcion()
-    elif continuar == "n" or "no":
-        banner()
-        print(f"{Color.y}[*] Gracias Por usar el programa {Color.r}:){Color.off}")
-        exit(0)
-    else:
-        print(f"{Color.r}[!]Error...{Color.off}")
+    except KeyboardInterrupt:
+        print(f"{Color.r}[!] Salio Forzado...{Color.off}")
         exit(1)
+
+    except sqlite3.ProgrammingError:
+        clear_pant()
+        banner()
+        print(f"\n{Color.r}[!] El nombre no existe{Color.off}")
+        continuar()
+################################################################################
 
 
 def menu():
@@ -156,15 +188,18 @@ def menu():
     try:
         menu: int = int(input(f"{Color.b}[{Color.r}*{Color.b}] Seleccione una opcion: {Color.off}"))
         return menu
+        
     except KeyboardInterrupt:
         clear_pant()
         banner()
         print(f"\n\n{Color.r}[!] Salio Forzado...{Color.off}\n")
         exit(1)
+
     except ValueError:
         clear_pant()
         banner()
         print(f"\n{Color.r}[!] Error Interno...{Color.off}\n")
+        exit(1)
 
 
 def opcion():
@@ -203,7 +238,7 @@ def opcion():
 
             elif n == 6:
                 banner()
-                print(f"\n{Color.v}[!] Bye...\n{Color.off}")
+                print(f"\n{Color.v}[!] {Color.r}B{Color.y}y{Color.b}e{Color.m}.{Color.y}.{Color.b}.\n{Color.off}")
                 break
 
             else:
@@ -211,11 +246,11 @@ def opcion():
                 banner()
                 print(f"\n{Color.r}[!] Error Ingrese un numero valido{Color.off}\n")
                 exit(1)
-
+                
         except  KeyboardInterrupt as e:
             print(f"{Color.r}[!] Salio Forzado...{Color.off}", e)
             exit(1)
-        
+
 
 def main():
     opcion()
