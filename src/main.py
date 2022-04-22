@@ -1,6 +1,19 @@
 #!/usr/bin/python3
 # _*_ coding: utf-8 -*-
-# author: jakepy
+#
+# Creador: Jakepy Perdomo <j4kyjak3@protonmail.com>
+# Título: crud-terminal-simple
+# FechaCreación: 17-abr-22
+#
+# Código simple de un crud en python. Versión 1.0.
+# Copyright (c) 2022 Jakepy Perdomo <j4kyjak3@protonmail.com>. Comentarios bienvenidos.
+#
+# Permiso otorgado para uso y distribución no comercial siempre que
+# este aviso de derechos de autor permanece intacto.
+#
+# Hay ejemplos de cómo usar este código en el README.md.
+#
+# Cual quier duda escribeme, o talvez este dormido jsjs.
 
 # Modulos
 from colorama import Fore
